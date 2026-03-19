@@ -12,14 +12,12 @@ public class CreateNewAccountPage {
 
     WebDriver driver;
 
-    // Constructor
     public CreateNewAccountPage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
     // Locators
-
     @FindBy(id = "type")
     WebElement accountTypeDropdown;
 
@@ -29,38 +27,26 @@ public class CreateNewAccountPage {
     @FindBy(xpath = "//input[@value='Open New Account']")
     WebElement openAccountBtn;
 
-    @FindBy(id = "newAccountId")
-    WebElement newAccountId;
-
-    @FindBy(xpath = "//h1[contains(text(),'Account Opened')]")
-    WebElement successMessage;
-
     // Actions
 
+    // 1. Select Account Type
     public void selectAccountType(String type) {
-        waitUtils.waitForVisibility(driver, accountTypeDropdown);
+        waitUtils.waitForElementClickable(driver, accountTypeDropdown);
         Select select = new Select(accountTypeDropdown);
         select.selectByVisibleText(type);
     }
 
-    public void selectExistingAccount(String accountId) {
-        waitUtils.waitForVisibility(driver, existingAccountDropdown);
+    // 2. Select Existing Account (by index = BEST)
+    public void selectExistingAccount() {
+        waitUtils.waitForElementClickable(driver, existingAccountDropdown);
         Select select = new Select(existingAccountDropdown);
-        select.selectByVisibleText(accountId);
+        select.selectByIndex(0);  // first available account
     }
-    
+
+    // 3. Click Open Account
     public void clickOpenAccount() {
         waitUtils.waitForElementClickable(driver, openAccountBtn);
         openAccountBtn.click();
     }
 
-    public String getNewAccountId() {
-        waitUtils.waitForVisibility(driver, newAccountId);
-        return newAccountId.getText();
-    }
-
-    public String getSuccessMessage() {
-        waitUtils.waitForVisibility(driver, successMessage);
-        return successMessage.getText();
-    }
 }
